@@ -22,8 +22,7 @@ class Employee_Sys:
                 lines = f.read().splitlines()
                 for i in lines:
                     line = i.split()
-                    for _ in range(len(lines)):
-                        print(f"Employee: {line[0]} has age {line[1]} and salary {line[2]}")
+                    print(f"Employee: {line[0]} has age {line[1]} and salary {line[2]}")
     def Delete_By_Age(self,age_from , age_to):
         flag = True
         with open("DB.txt","r") as f:
@@ -31,7 +30,7 @@ class Employee_Sys:
             for idx,val in enumerate(lines):
                 line = val.split()
                 if int(line[1]) >= age_from and int(line[1]) <= age_to:
-                    print(f"\tDeleting {line[0]}")
+                    print(f"\n\tDeleting {line[0]}")
                     lines.pop(idx)
                     with open("DB.txt" , "w") as f2:
                         f2.writelines(lines)
