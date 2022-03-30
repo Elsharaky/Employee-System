@@ -1,8 +1,3 @@
-def validate_int(inp):
-    inp = str(inp)
-    if inp.isdecimal():
-        return True
-    return False
 class Employee_Sys:
     def __init__(self):
         pass
@@ -60,6 +55,12 @@ class Employee_Sys:
                     break
             else:
                 print("\nThere is no employee with this name!")
+    def validate_int(self,inp):
+        inp = str(inp)
+        inp = inp.strip()
+        if inp.isdecimal():
+            return True
+        return False
 
 if __name__ == "__main__":
     with open("DB.txt","w") as f:
@@ -82,7 +83,7 @@ if __name__ == "__main__":
             name = input("Enter Name: ")
             age = input("Enter Age: ")
             salary = input("Enter Salary: ")
-            if validate_int(age) and validate_int(salary):
+            if Emp.validate_int(age) and Emp.validate_int(salary):
                 Emp.Add_Emp(name,age,salary)
             else:
                 print("\nThe age and salary must be integers! try again!")
@@ -92,14 +93,14 @@ if __name__ == "__main__":
         elif Choice == "3":
             age_from = input("Enter age from: ")
             age_to = input("Enter age to: ")
-            if validate_int(age_from) and validate_int(age_to):
+            if Emp.validate_int(age_from) and Emp.validate_int(age_to):
                 Emp.Delete_By_Age(age_from,age_to)
             else:
                 print("\nThe range of age must be integers! try again!")
         elif Choice == "4":
             name = input("Enter the name: ")
             new_salary = input("Enter the new salary: ")
-            if validate_int(new_salary):
+            if Emp.validate_int(new_salary):
                 Emp.Update_Salary(name,new_salary)
             else:
                 print("\nThe new salary must be integer! try again!")
