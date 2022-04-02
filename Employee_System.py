@@ -1,11 +1,12 @@
 class Employee_Sys:
     def __init__(self):
+        self.filename = None
         pass
     def Add_Emp(self,name,age,salary):
         name = name.strip()
         age = int(age)
         salary = int(salary)
-        with open("DB.txt","r") as f:
+        with open(self.filename,"r") as f:
             lines = f.readlines()
             for i in lines:
                 line = i.split()
@@ -13,10 +14,10 @@ class Employee_Sys:
                     print("\nThis employee already exist!")
                     break
             else:
-                with open("DB.txt","a") as f:
+                with open(self.filename,"a") as f:
                     f.write(f"{name}\t{age}\t{salary}\n")
     def Print_Emp(self):
-        with open("DB.txt","r") as f:
+        with open(self.filename,"r") as f:
             if f.read() == "":
                 print("NO employees at the moment!")
             else:
@@ -29,14 +30,14 @@ class Employee_Sys:
         age_from = int(age_from)
         age_to = int(age_to)
         flag = True
-        with open("DB.txt","r") as f:
+        with open(self.filename,"r") as f:
             lines = f.readlines()
             for idx,val in enumerate(lines):
                 line = val.split()
                 if int(line[1]) >= age_from and int(line[1]) <= age_to:
                     print(f"\n\tDeleting {line[0]}")
                     lines.pop(idx)
-                    with open("DB.txt" , "w") as f2:
+                    with open(self.filename , "w") as f2:
                         f2.writelines(lines)
                     flag = False
         if flag:
@@ -44,13 +45,13 @@ class Employee_Sys:
     def Update_Salary(self,name,new_salary):
         name = name.strip()
         new_salary = int(new_salary)
-        with open("DB.txt","r") as f:
+        with open(self.filename,"r") as f:
             lines = f.readlines()
             for idx,val in enumerate(lines):
                 line = val.split()
                 if line[0] == name:
                     lines[idx] = f"{line[0]}\t{line[1]}\t{new_salary}\n"
-                    with open("DB.txt" , "w") as f2:
+                    with open(self.filename , "w") as f2:
                         f2.writelines(lines)
                     break
             else:
@@ -61,12 +62,25 @@ class Employee_Sys:
         if inp.isdecimal():
             return True
         return False
-
+    def Export_file(self,filename = "DB.txt"):
+        self.filename = filename.strip()
+        try:
+            open(self.filename , "r")
+        except FileNotFoundError:
+            open(self.filename, "w")
+    def Validate_file_name(self,inp):
+        inp = str(inp)
+        if inp.endswith(".txt"):
+            return True
+        return False
 if __name__ == "__main__":
-    with open("DB.txt","w") as f:
-        pass
+    Emp = Employee_Sys()
     while True:
-        Emp = Employee_Sys()
+        fname =  input("Enter the file you want to export data from (Default file DB.txt will be created) , Please note that the file extention must be .txt: ")
+        if Emp.Validate_file_name(fname):
+            break
+    Emp.Export_file(fname)
+    while True:
         print("\nProgram Options:")
         print("1) Add a new employee")
         print("2) List all employees")
